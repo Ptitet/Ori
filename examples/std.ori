@@ -1,10 +1,10 @@
-lang.number('1.2') ; 1.2
-lang.random() ; between 0 and 1 (Math.random())
+ori.number('1.2') ; 1.2
+ori.random() ; between 0 and 1 (Math.random())
 
 number = {
     number = while true {
         try {
-            break lang.number(input('enter a number : '))
+            break ori.number(input('enter a number : '))
         }
     }@-1
     number * number

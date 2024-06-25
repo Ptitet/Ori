@@ -23,16 +23,16 @@ chosen = while { inp = input('number plz') } > 3 do {
 }
 
 while true {
-    if lang.random() > 0.5 then break;
+    if ori.random() > 0.5 then break;
 }
 
 flag = true
 while { flag } {
-    if { lang.random() > 0.5 } then {
+    if { ori.random() > 0.5 } then {
         flag = false
     } else {
         output('yay')
     }
 }
 
-while flag do if lang.random() > 0.5 then flag = false else output('yay')
+while flag do if ori.random() > 0.5 then flag = false else output('yay')

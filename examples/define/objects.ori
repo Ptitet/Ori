@@ -14,9 +14,9 @@ obj = (
 
 out(obj.hobbies) ; ['volley', 'music']
 
-lang.objects.set(obj, 'key', value)
+ori.objects.set(obj, 'key', value)
 
-factorySetKey = fn (obj) fn (k, v) lang.object.set(obj, k, v)
+factorySetKey = fn (obj) fn (k, v) ori.object.set(obj, k, v)
 
 setKey = factorySetKey(hobbies)
 
