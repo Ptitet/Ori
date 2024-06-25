@@ -1,0 +1,24 @@
+lang.number('1.2') ; 1.2
+lang.random() ; between 0 and 1 (Math.random())
+
+number = {
+    number = while true {
+        try {
+            break lang.number(input('enter a number : '))
+        }
+    }@-1
+    number * number
+}
+
+i = 0
+a = {while i < 6 do i++}@-1
+output(a) ; [0, 1, 2, 3, 4, 5]
+
+sum = fn (arr) {
+    s = 0
+    {for v in arr do s += v}@-1
+}
+
+a = [..5]
+a = for v in a do v * v
+output(a) ; [0, 1, 4, 9, 16]

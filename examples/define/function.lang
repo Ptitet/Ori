@@ -1,0 +1,6 @@
+add = fn (a, b) a + b
+
+echo = fn () {
+    input = in('Type something : ')
+    out(input)
+}

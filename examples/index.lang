@@ -1,0 +1,125 @@
+a = { 1 + 1 } + 1
+b = 'lalala'
+c = true
+d = 1 + 1
+f = d
+fn mul(a, b) a * b
+
+fn wrap(f, a, b, msg) {
+    out(msg)
+    f()
+}
+
+wrap(fn _(a, b) a + b, 1, 2, msg)
+wrap(fn _(a, b) {
+    a + b
+}, 1, 2, msg)
+
+fn f_add(a) return(add(b) a + b)
+fn f_add(a) {
+    fn add(b) {
+        a + b
+    }
+}
+
+v = if {
+    a = {fn _() 1}()
+} > {
+    
+} then {
+    8
+} else 3
+
+; functions
+
+fn func(arg) { arg + 1 }
+fn func(arg) arg + 1
+
+func = fn (arg) { arg + 1 }
+func = (arg) arg + 1
+
+return(x) x
+
+e = p1(mul(a, 3))
+
+if a == 2 then
+
+###########################
+
+check = fn (age_max) {
+    input = in('age ? ')
+
+    if input <= age_max {
+        out('Adult')
+    } else {
+        out('Child')
+    }
+}
+
+age_max = 18
+check(age_max)
+
+############################
+
+say_hello = fn () {
+    out('Hello !')
+}
+
+secure = once(say_hello)
+
+; Ou sinon
+
+once = fn (func) {
+    executed = false
+    fn () {
+        if !executed {
+            executed = true
+            func()
+        }
+    }
+}
+
+secure = once(fn () out('Hello !'))
+
+sum = fn (arr) {
+    s = 0
+    for v in arr {
+        s = s + v
+    }
+}
+
+sum = fn (arr) {
+    s = 0
+    for v in arr {
+        s = s + v
+    }
+    return (s)
+}
+
+total = sum( [1, 2, 3] )
+
+return = fn (value) value
+
+###################################
+
+check = fn (age_max) {
+    input = 18
+    if input >= age_max {
+        'Adult'
+    } else {
+        'Child'
+    }
+}
+
+age_max = 18
+check(age_max)
+
+a = 1 + 2 + plus_one(2) + {
+    1
+}
+
+if a + 2 >= 3 / b 
+
+a + 2 > 3
+
+a = fn (a, b) -a + b

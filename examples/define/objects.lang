@@ -1,0 +1,23 @@
+obj = (
+    id = 1,
+    name = 'Jean',
+    is_adult = true,
+    hobbies = {
+        inp = ''
+        hobbies = []
+        while { inp = input('hobby') } != '.done' { ; volley, music, .done
+            hobbies.push(inp)
+        }
+        hobbies
+    }
+)
+
+out(obj.hobbies) ; ['volley', 'music']
+
+lang.objects.set(obj, 'key', value)
+
+factorySetKey = fn (obj) fn (k, v) lang.object.set(obj, k, v)
+
+setKey = factorySetKey(hobbies)
+
+setKey('game', 'minecraft')

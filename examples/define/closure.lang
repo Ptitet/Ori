@@ -1,0 +1,14 @@
+n = 1
+{
+    n = 2
+    out(n) ; 2
+}
+out(n) ; 1
+
+value = {
+    raw = 2
+    transformed = 2 * raw
+    1 / transformed
+}
+out(value) ; 0.25
+out(raw) ; ReferenceError : Unknown identifier raw

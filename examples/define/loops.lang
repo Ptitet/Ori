@@ -1,0 +1,38 @@
+for _ in [0..100] do out('yes')
+for i in {
+    a = 3
+    b = 4
+    [a..b]
+} out(i)
+
+while true do out('yes')
+
+do out('yes') while true
+answer = do {
+    out('yes')
+    'no'
+} while {
+    n = in('anything')
+    n == 'anything'
+}
+
+input = 0
+chosen = while { inp = input('number plz') } > 3 do {
+    output('Error : input must be smaller than 3')
+    inp
+}
+
+while true {
+    if lang.random() > 0.5 then break;
+}
+
+flag = true
+while { flag } {
+    if { lang.random() > 0.5 } then {
+        flag = false
+    } else {
+        output('yay')
+    }
+}
+
+while flag do if lang.random() > 0.5 then flag = false else output('yay')

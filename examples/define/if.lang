@@ -1,0 +1,18 @@
+if true then out("it's true") else out("it's false)
+if {
+    a = 1
+    b = 2
+    a < b
+} out('something happened') else {
+    text = 'yay'
+    out(text)
+}
+
+true || true  ; or
+true && true  ; and
+!true        ; not
+
+if { true } false else true
+if true false
+if true { false }
+if {if true then {if true then false} } {} else {}
