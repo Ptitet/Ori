@@ -53,7 +53,7 @@ add = fn (a, b) {
 }
 ```
 
-Here, we declare a function which return its argument, and assign it to the variable `return` (function declaration are expressions). Now, you can use this in functions body's to clearly mark that a value is returned, even if it is always the case.
+Here, we declare a function which return its argument, and assign it to the variable `return` (function declaration are expressions). Now, you can use this in functions body's to clearly mark that a value is returned, even if it is always the case. Note that if there are other expressions in the function's body after it, it will not have any effect, because the return value of the function is the result of the *last* expression.
 
 > To add an inline comment, you can use a semi-colon `;`
 
