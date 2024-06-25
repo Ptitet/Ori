@@ -6,7 +6,7 @@ Ori is my little programming language.
 
 I am making this because I find that this is a good coding challenge for myself, and I am very interested in how programming languages work under the hood (lexer, parser and interpreter / compiler).
 
-The purpose of this is of course not to be used in production environment. It is not finished, not stable, not optimized in any, and it is an interpreted language written in JavaScript.
+The purpose of this is of course not to be used in production environment. It is not finished, not stable, not optimized in any way, and it is an interpreted language written in JavaScript.
 
 > Yes, I know it is bad, but JavaScript is my main language for now. I will maybe rewrite it later in Rust if i can find the time to learn it.
 
