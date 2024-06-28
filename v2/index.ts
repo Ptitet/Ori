@@ -21,7 +21,7 @@ const programs = [
     'if true { true } else false'
 ];
 
-const index = 3;
+const index = 8;
 
 const tokenizer: Tokenizer = new Tokenizer(programs[index]);
 const tokens = tokenizer.tokenize();
