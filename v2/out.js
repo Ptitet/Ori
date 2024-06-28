@@ -1,3 +1,4 @@
+/* eslint-disable */
 // types/tokenizer.ts
 var TokenType;
 (function(TokenType2) {
