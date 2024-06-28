@@ -30,6 +30,11 @@ export default tseslint.config(
             }],
             '@typescript-eslint/restrict-template-expressions': ['error', {
                 allowNumber: true
+            }],
+            '@typescript-eslint/prefer-nullish-coalescing': ['error', {
+                ignorePrimitives: {
+                    boolean: true
+                }
             }]
         }
     },
