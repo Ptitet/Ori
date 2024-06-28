@@ -3,17 +3,17 @@ import { KeywordType, LiteralType, OperatorType, PunctuationType, TokenType, typ
 class StringReader {
 
     private _source: string;
-    private _index: number = -1;
-    column: number = -1;
-    row: number = 0;
-    lineFeed: string = '\n';
+    private _index = -1;
+    column = -1;
+    row = 0;
+    lineFeed = '\n';
 
     constructor(source: string) {
         this._source = source;
     }
 
     get current(): string {
-        return this._source.at(this._index) as string;
+        return this._source.at(this._index)!;
     }
 
     next(): string | undefined {
@@ -26,7 +26,7 @@ class StringReader {
         return this._source.at(this._index);
     }
 
-    peek(n: number = 1): string | undefined {
+    peek(n = 1): string | undefined {
         return this._source.at(this._index + n);
     }
 }
@@ -45,16 +45,17 @@ export default class Tokenizer {
 
     private _stringReader: StringReader;
     private _tokens: Token[] = [];
-    private _letterRegex: RegExp = /[a-zA-Z_]/;
+    private _letterRegex = /[a-zA-Z_]/;
     private _punctuationChars: string[] = Object.values(PunctuationType);
-    private _digitRegex: RegExp = /\d/;
+    private _digitRegex = /\d/;
     private _lineFeed: string;
-    private _space: string = ' ';
+    private _space = ' ';
     private _keywords: string[] = Object.values(KeywordType);
     private _booleanLiterals: string[] = ['true', 'false'];
     private _allowedCharTypesForIdentifiers: string[] = [CharType.Letter, CharType.Digit];
+    // eslint-disable-next-line @stylistic/quotes
     private _quotes: string[] = ['"', "'"];
-    private _comment: string = ';';
+    private _comment = ';';
     private _operators: string[] = Object.values(OperatorType);
     private _operatorsFirstChar: string[] = this._operators.map(operator => operator.charAt(0));
 
@@ -130,7 +131,7 @@ export default class Tokenizer {
         let value = this._stringReader.current;
         let nextChar: string | undefined;
         while ((nextChar = this._stringReader.peek()) && this._allowedCharTypesForIdentifiers.includes(this._getCharType(nextChar))) {
-            value += this._stringReader.next() as string;
+            value += this._stringReader.next()!;
         }
         const isBooleanLiteral = this._booleanLiterals.includes(value);
         if (isBooleanLiteral) {
@@ -159,7 +160,7 @@ export default class Tokenizer {
         let value = this._stringReader.current;
         let nextChar: string | undefined;
         while ((nextChar = this._stringReader.peek()) && this._getCharType(nextChar) === CharType.Operator) {
-            value += this._stringReader.next() as string;
+            value += this._stringReader.next()!;
         }
         if (!this._operators.includes(value)) {
             throw SyntaxError(`Unknown operator ${value} at ${this._stringReader.row}:${this._stringReader.column}`);
@@ -185,21 +186,21 @@ export default class Tokenizer {
                     dotHit = true;
                 }
             }
-            value += this._stringReader.next() as string;
+            value += this._stringReader.next()!;
         }
         this._tokens.push({
             type: TokenType.Literal,
             literal: LiteralType.Number,
             value: Number.parseFloat(value)
-        })
+        });
     }
 
     private _getStringLiteral() {
-        let openQuote = this._stringReader.current;
-        let value: string = '';
+        const openQuote = this._stringReader.current;
+        let value = '';
         let nextChar: string | undefined;
         while ((nextChar = this._stringReader.peek()) && nextChar !== openQuote) {
-            value += this._stringReader.next();
+            value += this._stringReader.next()!;
         }
         if (!nextChar) {
             throw SyntaxError(`Expected string to be closed at ${this._stringReader.row}:${this._stringReader.column + 1}`);
@@ -209,7 +210,7 @@ export default class Tokenizer {
             literal: LiteralType.String,
             value
         });
-        this._stringReader.next() // skip the closing quote
+        this._stringReader.next(); // skip the closing quote
     }
 
     private _skipComment() {

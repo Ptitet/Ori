@@ -20,7 +20,7 @@ export enum CharType {
 export type Token = Identifier | Litteral | Punctuation | Operator | Keyword | LineFeed;
 
 export interface LineFeed {
-    type: TokenType.LineFeed
+    type: TokenType.LineFeed;
 }
 
 export interface Keyword {

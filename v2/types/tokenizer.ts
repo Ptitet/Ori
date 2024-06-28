@@ -19,13 +19,13 @@ export enum KeywordType {
 }
 
 export interface Keyword {
-    type: TokenType.Keyword,
-    keyword: KeywordType
+    type: TokenType.Keyword;
+    keyword: KeywordType;
 }
 
 export interface Identifier {
-    type: TokenType.Identifier,
-    name: string
+    type: TokenType.Identifier;
+    name: string;
 }
 
 export enum OperatorType {
@@ -60,8 +60,8 @@ export enum OperatorType {
 }
 
 interface Operator {
-    type: TokenType.Operator,
-    operator: OperatorType
+    type: TokenType.Operator;
+    operator: OperatorType;
 }
 
 export enum PunctuationType {
@@ -75,8 +75,8 @@ export enum PunctuationType {
 }
 
 export interface Punctuation {
-    type: TokenType.Punctuation,
-    punctuation: PunctuationType 
+    type: TokenType.Punctuation;
+    punctuation: PunctuationType; 
 }
 
 export enum LiteralType {
@@ -86,34 +86,34 @@ export enum LiteralType {
 }
 
 interface BooleanLiteral {
-    type: TokenType.Literal,
-    literal: LiteralType.Boolean,
-    value: boolean
+    type: TokenType.Literal;
+    literal: LiteralType.Boolean;
+    value: boolean;
 }
 
 interface NumberLiteral {
-    type: TokenType.Literal
-    literal: LiteralType.Number,
-    value: number
+    type: TokenType.Literal;
+    literal: LiteralType.Number;
+    value: number;
 }
 
 interface StringLiteral {
-    type: TokenType.Literal,
-    literal: LiteralType.String,
-    value: string
+    type: TokenType.Literal;
+    literal: LiteralType.String;
+    value: string;
 }
 
 interface LineFeed {
-    type: TokenType.LineFeed
+    type: TokenType.LineFeed;
 }
 
 type Literal = | BooleanLiteral 
                | NumberLiteral
-               | StringLiteral
+               | StringLiteral;
 
 export type Token = | Keyword
                     | Identifier
                     | Operator
                     | Punctuation
                     | Literal
-                    | LineFeed
+                    | LineFeed;

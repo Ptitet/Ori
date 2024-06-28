@@ -6,57 +6,57 @@ import type { Identifier, Keyword, Punctuation, Token } from '../types/tokenizer
 class TokensReader {
 
     private _tokens: Token[];
-    private _index: number = -1;
+    private _index = -1;
 
     constructor(tokens: Token[]) {
         this._tokens = tokens;
     }
 
     get current(): Token {
-        return this._tokens.at(this._index) as Token;
+        return this._tokens.at(this._index)!;
     }
 
     next(): Token | undefined {
         return this._tokens.at(++this._index);
     }
 
-    peek(n: number = 1): Token | undefined {
+    peek(n = 1): Token | undefined {
         return this._tokens.at(this._index + n);
     }
 }
 
 interface ParsingOptions {
-    parsingIfCondition?: boolean,
-    parsingFunctionCallArgs?: boolean,
-    parsingObjectMemberValue?: boolean,
-    parsingWhileCondition?: boolean,
-    parsingForIterator?: boolean,
-    parsingIfThen?: boolean,
-    parsingArray?: boolean,
-    returnAfterLineFeed?: boolean
+    parsingIfCondition?: boolean;
+    parsingFunctionCallArgs?: boolean;
+    parsingObjectMemberValue?: boolean;
+    parsingWhileCondition?: boolean;
+    parsingForIterator?: boolean;
+    parsingIfThen?: boolean;
+    parsingArray?: boolean;
+    returnAfterLineFeed?: boolean;
 }
 
 interface ExpectToBeAny {
-    token: 'next' | 'current',
-    tokenType: Exclude<TokenType, TokenType.Keyword | TokenType.Punctuation>
+    token: 'next' | 'current';
+    tokenType: Exclude<TokenType, TokenType.Keyword | TokenType.Punctuation>;
 }
 
 interface ExpectToBePunctuation {
-    token: 'next' | 'current',
-    tokenType: TokenType.Punctuation,
-    raw: PunctuationType[]
+    token: 'next' | 'current';
+    tokenType: TokenType.Punctuation;
+    raw: PunctuationType[];
 }
 
 interface ExpectToBeKeyword {
-    token: 'next' | 'current',
-    tokenType: TokenType.Keyword,
-    raw: KeywordType[]
+    token: 'next' | 'current';
+    tokenType: TokenType.Keyword;
+    raw: KeywordType[];
 }
 
 interface ExpectToBeOperator {
-    token: 'next' | 'current',
-    tokenType: TokenType.Operator,
-    raw: OperatorType[]
+    token: 'next' | 'current';
+    tokenType: TokenType.Operator;
+    raw: OperatorType[];
 }
 
 type ExpectToBeOptions = ExpectToBeAny | ExpectToBePunctuation | ExpectToBeKeyword | ExpectToBeOperator;
@@ -83,10 +83,10 @@ export default class Parser {
             throw SyntaxError(`Expected ${options.tokenType} received ${tokenToCheck.type}`);
         }
         if (tokenToCheck.type === TokenType.Punctuation && !(options as ExpectToBePunctuation).raw.includes(tokenToCheck.punctuation)) {
-            const formatter = new Intl.ListFormat('en-US', { type: "conjunction" });
+            const formatter = new Intl.ListFormat('en-US', { type: 'conjunction' });
             throw SyntaxError(`Expected ${formatter.format((options as ExpectToBePunctuation).raw)} received ${tokenToCheck.punctuation}`);
         } else if (tokenToCheck.type === TokenType.Keyword && !(options as ExpectToBeKeyword).raw.includes(tokenToCheck.keyword)) {
-            const formatter = new Intl.ListFormat('en-US', { type: "conjunction" });
+            const formatter = new Intl.ListFormat('en-US', { type: 'conjunction' });
             throw SyntaxError(`Expected ${formatter.format((options as ExpectToBePunctuation).raw)} received ${tokenToCheck.keyword}`);
         }
     }
@@ -97,7 +97,7 @@ export default class Parser {
 
     private _parse(options: ParsingOptions = {}): Expression {
         const output: Expression[] = [];
-        let exit: boolean = false;
+        let exit = false;
         while (!exit && this._tokensReader.next()) {
             const { current } = this._tokensReader;
             switch (current.type) {
@@ -197,7 +197,7 @@ export default class Parser {
                 case TokenType.Literal: {
                     const nextToken = this._tokensReader.next();
                     if (!nextToken) {
-                        // @ts-expect-error
+                        // @ts-expect-error typescript is weird
                         output.push({
                             type: ExpressionType.Literal,
                             literal: current.literal,
@@ -207,16 +207,16 @@ export default class Parser {
                         switch (nextToken.type) {
                             case TokenType.Keyword: {
                                 if (nextToken.keyword === KeywordType.Do && options.parsingWhileCondition) {
-                                    // @ts-expect-error
+                                    // @ts-expect-error typescript is weird
                                     output.push({
                                         type: ExpressionType.Literal,
                                         literal: current.literal,
                                         value: current.value
                                     });
                                     exit = true;
-                                    this._tokensReader.next() // consume do
+                                    this._tokensReader.next(); // consume do
                                 } else if (nextToken.keyword === KeywordType.Else) {
-                                    // @ts-expect-error
+                                    // @ts-expect-error typescript is weird
                                     output.push({
                                         type: ExpressionType.Literal,
                                         literal: current.literal,
@@ -224,7 +224,7 @@ export default class Parser {
                                     });
                                     exit = true;
                                 } else if (nextToken.keyword === KeywordType.Then && options.parsingIfCondition) {
-                                    // @ts-expect-error
+                                    // @ts-expect-error typescript is weird
                                     output.push({
                                         type: ExpressionType.Literal,
                                         literal: current.literal,
@@ -247,7 +247,7 @@ export default class Parser {
                                         output.push({
                                             type: ExpressionType.Math,
                                             binary: true,
-                                            // @ts-expect-error
+                                            // @ts-expect-error  typescript is weird
                                             left: {
                                                 type: ExpressionType.Literal,
                                                 literal: current.literal,
@@ -265,7 +265,7 @@ export default class Parser {
                                     case OperatorType.Equal: { // ? check types now
                                         output.push({
                                             type: ExpressionType.Comparison,
-                                            // @ts-expect-error
+                                            // @ts-expect-error  typescript is weird
                                             left: {
                                                 type: ExpressionType.Literal,
                                                 literal: current.literal,
@@ -278,7 +278,7 @@ export default class Parser {
                                     }
                                     case OperatorType.LogicalOr:
                                     case OperatorType.LogicalAnd: {
-                                        // @ts-expect-error
+                                        // @ts-expect-error typescript is weird
                                         output.push({
                                             type: ExpressionType.Boolean,
                                             binary: true,
@@ -294,7 +294,7 @@ export default class Parser {
                                     }
                                     case OperatorType.Range: {
                                         if (options.parsingArray) {
-                                            // @ts-expect-error
+                                            // @ts-expect-error typescript is weird
                                             output.push({
                                                 type: ExpressionType.Literal,
                                                 literal: current.literal,
@@ -311,7 +311,7 @@ export default class Parser {
                             case TokenType.Punctuation: {
                                 switch (nextToken.punctuation) {
                                     case PunctuationType.CloseCurly: {
-                                        // @ts-expect-error
+                                        // @ts-expect-error typescript is weird
                                         output.push({
                                             type: ExpressionType.Literal,
                                             literal: current.literal,
@@ -322,7 +322,7 @@ export default class Parser {
                                     }
                                     case PunctuationType.CloseParenthesis: {
                                         if (options.parsingFunctionCallArgs || options.parsingObjectMemberValue) {
-                                            // @ts-expect-error
+                                            // @ts-expect-error typescript is weird
                                             output.push({
                                                 type: ExpressionType.Literal,
                                                 literal: current.literal,
@@ -335,7 +335,7 @@ export default class Parser {
                                     }
                                     case PunctuationType.CloseSquare: {
                                         if (options.parsingArray) {
-                                            // @ts-expect-error
+                                            // @ts-expect-error typescript is weird
                                             output.push({
                                                 type: ExpressionType.Literal,
                                                 literal: current.literal,
@@ -348,7 +348,7 @@ export default class Parser {
                                     }
                                     case PunctuationType.Comma: {
                                         if (options.parsingArray) {
-                                            // @ts-expect-error
+                                            // @ts-expect-error typescript is weird
                                             output.push({
                                                 type: ExpressionType.Literal,
                                                 literal: current.literal,
@@ -375,7 +375,7 @@ export default class Parser {
                 case TokenType.LineFeed: {
                     if (options.parsingObjectMemberValue || options.returnAfterLineFeed) {
                         exit = true;
-                        this._tokensReader.next() // consume line feed
+                        this._tokensReader.next(); // consume line feed
                     }
                     break;
                 }
@@ -387,19 +387,19 @@ export default class Parser {
             }
             return [];
         } else if (output.length === 1) {
-            return output[0]
+            return output[0];
         } else {
             return output;
         }
     }
 
     private _handleArray(): Array {
-        let nextToken = this._tokensReader.peek();
+        const nextToken = this._tokensReader.peek();
         if (!nextToken) {
             throw SyntaxError('Unexpected end of file');
         }
         if (nextToken.type === TokenType.Operator && nextToken.operator === OperatorType.Range) {
-            this._tokensReader.next() // consume ..
+            this._tokensReader.next(); // consume ..
             const to = this._parse({ parsingArray: true });
             const { current } = this._tokensReader;
             if (current.type === TokenType.Punctuation && current.punctuation === PunctuationType.CloseSquare) {
@@ -407,7 +407,7 @@ export default class Parser {
                     type: ExpressionType.Array,
                     array: ArrayType.Range,
                     to
-                }
+                };
             }
             if (current.type === TokenType.Operator && current.operator === OperatorType.Range) {
                 const step = this._parse({ parsingArray: true });
@@ -421,7 +421,7 @@ export default class Parser {
                     array: ArrayType.Range,
                     to,
                     step
-                }
+                };
             }
             throw SyntaxError('Expected ] or ..');
         }
@@ -433,19 +433,20 @@ export default class Parser {
                     type: ExpressionType.Array,
                     array: ArrayType.List,
                     values: [firstExpression]
-                }
+                };
             }
             if (current.punctuation === PunctuationType.Comma) {
                 const values: Expression[] = [firstExpression];
-                let current: Token | undefined;
-                while ((current = this._tokensReader.current) && current.type === TokenType.Punctuation && current.punctuation === PunctuationType.Comma) {
+                let { current } = this._tokensReader;
+                while (current.type === TokenType.Punctuation && current.punctuation === PunctuationType.Comma) {
                     values.push(this._parse({ parsingArray: true }));
+                    current = this._tokensReader.current;
                 }
                 return {
                     type: ExpressionType.Array,
                     array: ArrayType.List,
                     values
-                }
+                };
                 // this._expectToBe({
                 //     token: 'current',
                 //     tokenType: TokenType.Punctuation,
@@ -462,7 +463,7 @@ export default class Parser {
                     array: ArrayType.Range,
                     from: firstExpression,
                     to
-                }
+                };
             }
             if (current.type === TokenType.Operator && current.operator === OperatorType.Range) {
                 const step = this._parse({ parsingArray: true });
@@ -472,7 +473,7 @@ export default class Parser {
                     from: firstExpression,
                     to,
                     step
-                }
+                };
             }
         }
         throw SyntaxError('Expected ] .. or ,');
@@ -489,7 +490,7 @@ export default class Parser {
         return {
             key,
             value: this._parse({ parsingObjectMemberValue: true, })
-        }
+        };
     }
 
     private _handleObjectDeclaration(): Object {
@@ -515,7 +516,7 @@ export default class Parser {
         return {
             type: ExpressionType.Object,
             members
-        }
+        };
     }
 
     private _parseWhileLoop(): WhileLoop {
@@ -523,7 +524,7 @@ export default class Parser {
             type: ExpressionType.WhileLoop,
             condition: this._parse({ parsingWhileCondition: true }),
             body: this._parse()
-        }
+        };
     }
 
     private _parseForLoop(): ForLoop {
@@ -532,7 +533,7 @@ export default class Parser {
             token: 'current',
             tokenType: TokenType.Identifier
         });
-        this._tokensReader.next() // consume in
+        this._tokensReader.next(); // consume in
         this._expectToBe({
             token: 'current',
             tokenType: TokenType.Keyword,
@@ -543,7 +544,7 @@ export default class Parser {
             variable: (identifier as Identifier).name,
             iterator: this._parse({ parsingForIterator: true }),
             body: this._parse()
-        }
+        };
     }
 
     private _handleKeyword(): Inline {
@@ -581,17 +582,17 @@ export default class Parser {
             tokenType: TokenType.Punctuation,
             raw: [PunctuationType.CloseParenthesis]
         });
-        this._tokensReader.next() // consume )
+        this._tokensReader.next(); // consume )
         return args;
     }
 
     private _parseFunctionCall(functionName: string): FunctionCall {
-        this._tokensReader.next() // consume the (
+        this._tokensReader.next(); // consume the (
         return {
             type: ExpressionType.FunctionCall,
             func: functionName,
             args: this._parseFunctionCallArgs()
-        }
+        };
     }
 
     private _parseFunctionDeclarationArgs(): string[] {
@@ -646,15 +647,15 @@ export default class Parser {
         return conditionExpression;
     }
 
-    private _handleOperatorAndAssign(type: 'math', variableName: string, operator: MathOperator): Assignment
-    private _handleOperatorAndAssign(type: 'boolean', variableName: string, operator: BooleanOperator): Assignment
+    private _handleOperatorAndAssign(type: 'math', variableName: string, operator: MathOperator): Assignment;
+    private _handleOperatorAndAssign(type: 'boolean', variableName: string, operator: BooleanOperator): Assignment;
     private _handleOperatorAndAssign(type: 'math' | 'boolean', variableName: string, operator: MathOperator | BooleanOperator): Assignment {
-        // @ts-expect-error
+        // @ts-expect-error  typescript is weird
         return {
             type: ExpressionType.Assignment,
             variable: variableName,
             value: {
-                // @ts-expect-error
+                // @ts-expect-error  typescript is weird
                 type: type === 'math' ? ExpressionType.Math : ExpressionType.Boolean,
                 binary: true,
                 left: {
@@ -684,7 +685,7 @@ export default class Parser {
                 return {
                     type: ExpressionType.Variable,
                     name
-                } as Variable
+                } as Variable;
             }
             case TokenType.Operator: {
                 switch (nextToken.operator) {
@@ -800,10 +801,10 @@ export default class Parser {
                         } satisfies ArrayAt;
                     }
                     case OperatorType.AccessMember: {
-                        // @ts-expect-error
+                        // @ts-expect-error don't know how to implement this for now
                         return {
                             type: ExpressionType.Variable,
-                            // @ts-expect-error
+                            // @ts-expect-error don't know how to implement this for now
                             name: 1
                         } satisfies Variable;
                     }

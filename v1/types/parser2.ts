@@ -1,4 +1,4 @@
-import { LiteralType } from "./tokenizer"
+import { LiteralType } from './tokenizer';
 
 export enum ExpressionType {
     Assignment = 'assignment',
@@ -12,9 +12,9 @@ export enum ExpressionType {
 }
 
 export interface Assignment {
-    type: ExpressionType.Assignment,
-    variable: string,
-    value: Expression
+    type: ExpressionType.Assignment;
+    variable: string;
+    value: Expression;
 }
 
 export enum ComparisonOperator {
@@ -27,10 +27,10 @@ export enum ComparisonOperator {
 }
 
 export interface Comparison {
-    type: ExpressionType.Comparison,
-    left: Expression,
-    operator: ComparisonOperator,
-    right: Expression
+    type: ExpressionType.Comparison;
+    left: Expression;
+    operator: ComparisonOperator;
+    right: Expression;
 }
 
 export enum MathOperator {
@@ -41,10 +41,10 @@ export enum MathOperator {
 }
 
 export interface Calculus {
-    type: ExpressionType.Calculus,
-    left: Expression,
-    operator: MathOperator
-    right: Expression
+    type: ExpressionType.Calculus;
+    left: Expression;
+    operator: MathOperator;
+    right: Expression;
 }
 
 // export enum LiteralType {
@@ -54,53 +54,54 @@ export interface Calculus {
 // }
 
 export interface BooleanLiteral {
-    type: ExpressionType.Literal
-    literal: LiteralType.Boolean,
-    value: boolean
+    type: ExpressionType.Literal;
+    literal: LiteralType.Boolean;
+    value: boolean;
 }
 
 export interface NumberLiteral {
-    type: ExpressionType.Literal,
-    literal: LiteralType.Number,
-    value: number
+    type: ExpressionType.Literal;
+    literal: LiteralType.Number;
+    value: number;
 }
 
 export interface StringLiteral {
-    type: ExpressionType.Literal,
-    literal: LiteralType.String,
-    value: string
+    type: ExpressionType.Literal;
+    literal: LiteralType.String;
+    value: string;
 }
 
 export type Literal = BooleanLiteral | NumberLiteral | StringLiteral;
 
 export interface Variable {
-    type: ExpressionType.Variable
-    name: string
+    type: ExpressionType.Variable;
+    name: string;
 }
 
 export interface Condition {
-    type: ExpressionType.Condition,
-    condition: Expression,
-    true: Expression,
-    false?: Expression
+    type: ExpressionType.Condition;
+    condition: Expression;
+    true: Expression;
+    false?: Expression;
 }
 
 export interface FunctionCall {
-    type: ExpressionType.FunctionCall,
-    func: string,
-    args: Expression[]
+    type: ExpressionType.FunctionCall;
+    func: string;
+    args: Expression[];
 }
 
 export interface FunctionDeclaration {
-    type: ExpressionType.FunctionDeclaration,
-    args?: string[],
-    body: Expression
+    type: ExpressionType.FunctionDeclaration;
+    args?: string[];
+    body: Expression;
 }
 
 export type Inline = Assignment | Comparison | Calculus | Literal | Variable | Condition | FunctionCall | FunctionDeclaration;
 
 export type Expression = Inline | Expression[];
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const program: Expression = [
     {
         type: ExpressionType.Assignment,
@@ -177,6 +178,7 @@ const program: Expression = [
     }
 ];
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const prog: Expression = [
     {
         type: ExpressionType.Comparison,
@@ -200,4 +202,4 @@ const prog: Expression = [
             value: 3
         }
     }
-]
+];

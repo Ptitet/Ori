@@ -1,11 +1,11 @@
-import { CharType, TokenType, PunctuationType, LiteralType, OperatorType, KeywordType } from "../types/tokenizer";
-import type { Token, StringLitteral, NumberLitteral, Operator, Keyword, Identifier, BooleanLitteral } from "../types/tokenizer";
+import { CharType, TokenType, PunctuationType, LiteralType, OperatorType, KeywordType } from '../types/tokenizer';
+import type { Token, StringLitteral, NumberLitteral, Operator, Keyword, Identifier, BooleanLitteral } from '../types/tokenizer';
 
 export default class Tokenizer {
 
-    index: number = 0;
-    row: number = 0;
-    column: number = 0;
+    index = 0;
+    row = 0;
+    column = 0;
     readonly input: string;
 
     constructor(input: string) {
@@ -18,7 +18,7 @@ export default class Tokenizer {
 
     next(): string {
         this.row++;
-        let nextChar: string = this.input.charAt(++this.index);
+        const nextChar: string = this.input.charAt(++this.index);
 
         if (nextChar === '\n') {
             this.column++;
@@ -33,8 +33,8 @@ export default class Tokenizer {
 
     getCharType(input?: string): CharType {
         const char = input ?? this.current;
-        const punctuations = ['(', ')', '{', '}', "'", '"', ','];
-        const quotes = ['"', "'"];
+        const punctuations = ['(', ')', '{', '}', '\'', '"', ','];
+        const quotes = ['"', '\''];
         const regularRegex = /[a-zA-Z_]/;
         if (punctuations.includes(char)) {
             return CharType.Punctuation;
@@ -100,8 +100,8 @@ export default class Tokenizer {
     }
 
     getStringLitteral(): StringLitteral {
-        let opener: string = this.current;
-        let value: string = '';
+        const opener: string = this.current;
+        let value = '';
         while (this.peek() !== opener) {
             value += this.next();
         }
@@ -111,13 +111,15 @@ export default class Tokenizer {
             type: TokenType.Literal,
             literal: LiteralType.String,
             value
-        }
+        };
     }
 
     getNumberLitteral(): NumberLitteral {
         let value: string = this.current;
-        let dotHit: boolean = false;
+        // eslint-disable-next-line prefer-const
+        let dotHit = false;
         let currentChar: string;
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         while (this.getCharType(currentChar = this.peek()) === CharType.Digit || (currentChar === '.' && !dotHit)) {
             value += this.next();
         }
@@ -126,7 +128,7 @@ export default class Tokenizer {
             type: TokenType.Literal,
             literal: LiteralType.Number,
             value: Number.parseFloat(value)
-        }
+        };
     }
 
     getOperator(): Operator {
@@ -138,7 +140,7 @@ export default class Tokenizer {
         return {
             type: TokenType.Operator,
             operator: operator as OperatorType
-        }
+        };
     }
 
     getIdentifierOrKeywordOrBooleanLitteral(): Keyword | Identifier | BooleanLitteral {
@@ -153,18 +155,18 @@ export default class Tokenizer {
             return {
                 type: TokenType.Keyword,
                 keyword: value as KeywordType
-            }
+            };
         } else if (booleanLitterals.includes(value)) {
             return {
                 type: TokenType.Literal,
                 literal: LiteralType.Boolean,
                 value: value === 'true'
-            }
+            };
         } else {
             return {
                 type: TokenType.Identifier,
                 name: value
-            }
+            };
         }
     }
 }

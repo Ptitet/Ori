@@ -1,4 +1,4 @@
-import { LiteralType } from "./tokenizer";
+import { LiteralType } from './tokenizer';
 
 export enum ExpressionType {
     Assignment = 'assignment',
@@ -18,9 +18,9 @@ export enum ExpressionType {
 }
 
 export interface Assignment {
-    type: ExpressionType.Assignment,
-    variable: string,
-    value: Expression
+    type: ExpressionType.Assignment;
+    variable: string;
+    value: Expression;
 }
 
 export enum MathOperator {
@@ -33,38 +33,38 @@ export enum MathOperator {
 }
 
 export interface MathUnary {
-    type: ExpressionType.Math,
-    operator: MathOperator.Plus | MathOperator.Minus,
-    right: Expression
+    type: ExpressionType.Math;
+    operator: MathOperator.Plus | MathOperator.Minus;
+    right: Expression;
 }
 
 export interface MathBinary {
-    type: ExpressionType.Math,
-    binary: true,
-    left: Expression,
-    operator: MathOperator,
-    right: Expression
+    type: ExpressionType.Math;
+    binary: true;
+    left: Expression;
+    operator: MathOperator;
+    right: Expression;
 }
 
 export type Math = MathUnary | MathBinary;
 
 export interface FunctionDeclaration {
-    type: ExpressionType.FunctionDeclaration,
-    args?: string[],
-    body: Expression
+    type: ExpressionType.FunctionDeclaration;
+    args?: string[];
+    body: Expression;
 }
 
 export interface FunctionCall {
-    type: ExpressionType.FunctionCall,
-    func: string,
-    args: Expression[]
+    type: ExpressionType.FunctionCall;
+    func: string;
+    args: Expression[];
 }
 
 export interface Condition {
-    type: ExpressionType.Condition,
-    if: Expression,
-    then: Expression,
-    else?: Expression
+    type: ExpressionType.Condition;
+    if: Expression;
+    then: Expression;
+    else?: Expression;
 }
 
 export enum ComparisonOperator {
@@ -76,23 +76,23 @@ export enum ComparisonOperator {
 }
 
 export interface Comparison {
-    type: ExpressionType.Comparison,
-    left: Expression,
-    operator: ComparisonOperator,
-    right: Expression
+    type: ExpressionType.Comparison;
+    left: Expression;
+    operator: ComparisonOperator;
+    right: Expression;
 }
 
 export interface ForLoop {
-    type: ExpressionType.ForLoop,
-    variable: string,
-    iterator: Expression,
-    body: Expression
+    type: ExpressionType.ForLoop;
+    variable: string;
+    iterator: Expression;
+    body: Expression;
 }
 
 export interface WhileLoop {
-    type: ExpressionType.WhileLoop,
-    condition: Expression,
-    body: Expression
+    type: ExpressionType.WhileLoop;
+    condition: Expression;
+    body: Expression;
 }
 
 export enum BooleanOperator {
@@ -102,25 +102,25 @@ export enum BooleanOperator {
 }
 
 export interface BooleanUnary {
-    type: ExpressionType.Boolean,
-    operator: BooleanOperator.LogicalNot
-    right: Expression
+    type: ExpressionType.Boolean;
+    operator: BooleanOperator.LogicalNot;
+    right: Expression;
 }
 
 export interface BooleanBinary {
-    type: ExpressionType.Boolean,
-    binary: true,
-    left: Expression,
-    operator: BooleanOperator.LogicalAnd | BooleanOperator.LogicalOr,
-    right: Expression
+    type: ExpressionType.Boolean;
+    binary: true;
+    left: Expression;
+    operator: BooleanOperator.LogicalAnd | BooleanOperator.LogicalOr;
+    right: Expression;
 }
 
 export type Boolean = BooleanUnary | BooleanBinary;
 
 export interface ArrayAt {
-    type: ExpressionType.At,
-    variable: string,
-    at: Expression
+    type: ExpressionType.At;
+    variable: string;
+    at: Expression;
 }
 
 export enum ArrayType {
@@ -129,57 +129,58 @@ export enum ArrayType {
 }
 
 interface ArrayRange {
-    type: ExpressionType.Array,
-    array: ArrayType.Range,
-    from?: Expression,
-    to: Expression,
-    step?: Expression
+    type: ExpressionType.Array;
+    array: ArrayType.Range;
+    from?: Expression;
+    to: Expression;
+    step?: Expression;
 }
 
 interface ArrayList {
-    type: ExpressionType.Array,
-    array: ArrayType.List,
-    values: Expression[]
+    type: ExpressionType.Array;
+    array: ArrayType.List;
+    values: Expression[];
 }
 
 export type Array = ArrayRange | ArrayList;
 
 export interface Member {
-    key: string,
-    value: Expression
+    key: string;
+    value: Expression;
 }
 
 export interface Object {
-    type: ExpressionType.Object,
-    members: Member[]
+    type: ExpressionType.Object;
+    members: Member[];
 }
 
 interface BooleanLiteral {
-    type: ExpressionType.Literal
-    literal: LiteralType.Boolean,
-    value: boolean
+    type: ExpressionType.Literal;
+    literal: LiteralType.Boolean;
+    value: boolean;
 }
 
 interface NumberLiteral {
-    type: ExpressionType.Literal,
-    literal: LiteralType.Number,
-    value: number
+    type: ExpressionType.Literal;
+    literal: LiteralType.Number;
+    value: number;
 }
 
 interface StringLiteral {
-    type: ExpressionType.Literal,
-    literal: LiteralType.String,
-    value: string
+    type: ExpressionType.Literal;
+    literal: LiteralType.String;
+    value: string;
 }
 
 type Literal = BooleanLiteral | NumberLiteral | StringLiteral;
 
 export interface Variable {
-    type: ExpressionType.Variable,
-    name: string
+    type: ExpressionType.Variable;
+    name: string;
 }
 
-export type Inline = | Assignment
+export type Inline =
+    | Assignment
     | Math
     | FunctionDeclaration
     | FunctionCall
@@ -192,10 +193,11 @@ export type Inline = | Assignment
     | Array
     | Object
     | Literal
-    | Variable
+    | Variable;
 
 export type Expression = Inline | Expression[];
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const program: Expression = [
     {
         type: ExpressionType.Assignment,
@@ -250,4 +252,4 @@ const program: Expression = [
             ]
         }
     }
-]
+];

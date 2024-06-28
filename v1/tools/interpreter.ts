@@ -1,4 +1,4 @@
-import { ComparisonOperator, ExpressionType, MathOperator, type Expression, type FunctionDeclaration } from "../types/parser2";
+import { ComparisonOperator, ExpressionType, MathOperator, type Expression } from '../types/parser2';
 
 enum Type {
     Number = 'number',
@@ -8,49 +8,49 @@ enum Type {
 }
 
 interface StringVariable {
-    type: Type.String,
-    value: string
+    type: Type.String;
+    value: string;
 }
 
 interface BooleanVariable {
-    type: Type.Boolean,
-    value: boolean
+    type: Type.Boolean;
+    value: boolean;
 }
 
 interface NumberVariable {
-    type: Type.Number,
-    value: number
+    type: Type.Number;
+    value: number;
 }
 
 type RegularVariable = StringVariable | BooleanVariable | NumberVariable;
 
 interface FunctionVariable {
-    type: Type.Function,
-    args?: string[],
-    body: Expression
+    type: Type.Function;
+    args?: string[];
+    body: Expression;
 }
 
 type Variable = RegularVariable | FunctionVariable;
 
 interface StringInfo {
-    type: Type.String,
-    value: string
+    type: Type.String;
+    value: string;
 }
 
 interface BooleanInfo {
-    type: Type.Boolean,
-    value: boolean
+    type: Type.Boolean;
+    value: boolean;
 }
 
 interface NumberInfo {
-    type: Type.Number,
-    value: number
+    type: Type.Number;
+    value: number;
 }
 
 interface FunctionInfo {
-    type: Type.Function,
-    value: Expression,
-    args?: string[]
+    type: Type.Function;
+    value: Expression;
+    args?: string[];
 }
 
 type EvaluationInfo = StringInfo | BooleanInfo | NumberInfo | FunctionInfo;
@@ -59,7 +59,7 @@ type EvaluationInfo = StringInfo | BooleanInfo | NumberInfo | FunctionInfo;
 export default class Interpreter {
 
     programm: Expression[];
-    variables: Map<string, Variable> = new Map();
+    variables = new Map<string, Variable>();
 
     constructor(programm: Expression[]) {
         this.programm = programm;
@@ -72,7 +72,7 @@ export default class Interpreter {
         }
         return last;
     }
-    // @ts-expect-error
+    // @ts-expect-error no return for top-level eval (program)
     evaluate(expression: Expression): EvaluationInfo {
         if (Array.isArray(expression)) {
             for (const inline of expression) {
@@ -91,7 +91,7 @@ export default class Interpreter {
                     } else {
                         this.variables.set(expression.variable, {
                             type: infos.type,
-                            // @ts-expect-error
+                            // @ts-expect-error typescript is weird
                             value: infos.value
                         });
                     }
@@ -101,20 +101,20 @@ export default class Interpreter {
                     const leftInfos = this.evaluate(expression.left);
                     const rightInfos = this.evaluate(expression.right);
                     if (leftInfos.type !== rightInfos.type) {
-                        throw TypeError(`Cannot compare a ${leftInfos.type} and a ${rightInfos.type}`)
+                        throw TypeError(`Cannot compare a ${leftInfos.type} and a ${rightInfos.type}`);
                     }
                     switch (expression.operator) {
                         case ComparisonOperator.Equal: {
                             return {
                                 type: Type.Boolean,
                                 value: leftInfos.value === rightInfos.value
-                            }
+                            };
                         }
                         case ComparisonOperator.NotEqual: {
                             return {
                                 type: Type.Boolean,
                                 value: leftInfos.value !== rightInfos.value
-                            }
+                            };
                         }
                         case ComparisonOperator.GreaterThan: {
                             if (leftInfos.type !== Type.Number) {
@@ -122,9 +122,9 @@ export default class Interpreter {
                             }
                             return {
                                 type: Type.Boolean,
-                                // @ts-expect-error
+                                // @ts-expect-error both are numbers, it's checked juste before
                                 value: leftInfos.value > rightInfos.value
-                            }
+                            };
                         }
                         case ComparisonOperator.GreaterThanOrEqual: {
                             if (leftInfos.type !== Type.Number) {
@@ -132,9 +132,9 @@ export default class Interpreter {
                             }
                             return {
                                 type: Type.Boolean,
-                                // @ts-expect-error
+                                // @ts-expect-error both are numbers, it's checked juste before
                                 value: leftInfos.value >= rightInfos.value
-                            }
+                            };
                         }
                         case ComparisonOperator.LessThan: {
                             if (leftInfos.type !== Type.Number) {
@@ -142,9 +142,9 @@ export default class Interpreter {
                             }
                             return {
                                 type: Type.Boolean,
-                                // @ts-expect-error
+                                // @ts-expect-error both are numbers, it's checked juste before
                                 value: leftInfos.value < rightInfos.value
-                            }
+                            };
                         }
                         case ComparisonOperator.LessThanOrEqual: {
                             if (leftInfos.type !== Type.Number) {
@@ -152,55 +152,58 @@ export default class Interpreter {
                             }
                             return {
                                 type: Type.Boolean,
-                                // @ts-expect-error
+                                // @ts-expect-error both are numbers, it's checked juste before
                                 value: leftInfos.value <= rightInfos.value
-                            }
+                            };
                         }
                     }
+                    break;
                 }
                 case ExpressionType.Calculus: {
                     const leftInfos = this.evaluate(expression.left);
                     const rightInfos = this.evaluate(expression.right);
                     if (leftInfos.type !== rightInfos.type && leftInfos.type !== Type.Number) {
-                        throw TypeError(`Cannot perform math on a ${leftInfos.type} and a ${rightInfos.type}`)
+                        throw TypeError(`Cannot perform math on a ${leftInfos.type} and a ${rightInfos.type}`);
                     }
                     switch (expression.operator) {
                         case MathOperator.Plus: {
                             return {
                                 type: Type.Number,
-                                // @ts-expect-error
+                                // @ts-expect-error both are numbers, it's checked juste before
+                                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/restrict-plus-operands
                                 value: leftInfos.value + rightInfos.value
-                            }
+                            };
                         }
                         case MathOperator.Minus: {
                             return {
                                 type: Type.Number,
-                                // @ts-expect-error
+                                // @ts-expect-error both are numbers, it's checked juste before
                                 value: leftInfos.value - rightInfos.value
-                            }
+                            };
                         }
                         case MathOperator.Multiply: {
                             return {
                                 type: Type.Number,
-                                // @ts-expect-error
+                                // @ts-expect-error both are numbers, it's checked juste before
                                 value: leftInfos.value * rightInfos.value
-                            }
+                            };
                         }
                         case MathOperator.Divide: {
                             return {
                                 type: Type.Number,
-                                // @ts-expect-error
+                                // @ts-expect-error both are numbers, it's checked juste before
                                 value: leftInfos.value / rightInfos.value
-                            }
+                            };
                         }
                     }
+                    break;
                 }
                 case ExpressionType.Literal: {
-                    // @ts-expect-error
+                    // @ts-expect-error typescript is weird
                     return {
                         type: expression.literal as unknown as Type,
                         value: expression.value
-                    }
+                    };
                 }
                 case ExpressionType.Variable: {
                     const variable = this.variables.get(expression.name);
@@ -211,13 +214,13 @@ export default class Interpreter {
                         return {
                             type: Type.Function,
                             value: variable.body
-                        }
+                        };
                     } else {
-                        // @ts-expect-error
+                        // @ts-expect-error typescript is weird
                         return {
                             type: variable.type,
                             value: variable.value
-                        }
+                        };
                     }
                 }
                 case ExpressionType.Condition: {
@@ -241,7 +244,7 @@ export default class Interpreter {
                         throw new RangeError(`Invalid number of arguments for ${expression.func}`);
                     }
                     const backup = new Map<string, Variable>;
-                    for (const [i, v] of Object.entries((func.args ?? []) as string[])) {
+                    for (const [i, v] of Object.entries(func.args ?? [])) {
                         const potentialExisting = this.variables.get(v);
                         if (potentialExisting) {
                             backup.set(v, potentialExisting);
@@ -255,7 +258,7 @@ export default class Interpreter {
                         } else {
                             this.variables.set(v, {
                                 type: argInfos.type,
-                                // @ts-expect-error
+                                // @ts-expect-error typescript is weird
                                 value: argInfos.value
                             });
                         }
@@ -271,7 +274,7 @@ export default class Interpreter {
                         type: Type.Function,
                         value: expression.body,
                         args: expression.args
-                    }
+                    };
                 }
             }
         }

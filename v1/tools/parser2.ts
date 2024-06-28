@@ -1,5 +1,5 @@
-import { ComparisonOperator, ExpressionType, MathOperator, type Expression, type Inline } from "../types/parser2";
-import { OperatorType, PunctuationType, TokenType, LiteralType, type Token } from "../types/tokenizer";
+import { ComparisonOperator, ExpressionType, MathOperator, type Expression } from '../types/parser2';
+import { OperatorType, PunctuationType, TokenType, type Token } from '../types/tokenizer';
 
 export default class Parser {
 
@@ -7,7 +7,7 @@ export default class Parser {
         return ['+', '-', '*', '/'].includes(operator);
     }
 
-    index: number = -1;
+    index = -1;
     readonly tokens: Token[];
 
     constructor(tokens: Token[]) {
@@ -27,7 +27,7 @@ export default class Parser {
     }
 
     parse(): Expression {
-        let expressions: Expression = [];
+        const expressions: Expression = [];
         while (this.next()) {
             switch (this.current.type) {
                 case TokenType.Identifier: {
@@ -50,14 +50,14 @@ export default class Parser {
                         case TokenType.Operator: {
                             const { operator }: { operator: string } = nextToken;
                             const { name } = this.current;
-                            this.next() // skip operator
+                            this.next(); // skip operator
                             switch (operator as OperatorType) {
                                 case OperatorType.Assignment: {
                                     expressions.push({
                                         type: ExpressionType.Assignment,
                                         variable: name,
                                         value: this.parse()
-                                    })
+                                    });
                                     break;
                                 }
                                 case OperatorType.GreaterThan:
@@ -74,7 +74,7 @@ export default class Parser {
                                         },
                                         operator: operator as ComparisonOperator,
                                         right: this.parse()
-                                    })
+                                    });
                                     break;
                                 }
                                 case OperatorType.Plus:
@@ -89,7 +89,7 @@ export default class Parser {
                                         },
                                         operator: operator as MathOperator,
                                         right: this.parse()
-                                    })
+                                    });
                                     break;
                                 }
                             }
@@ -110,7 +110,7 @@ export default class Parser {
                     break;
                 }
                 case TokenType.Literal: {
-                    // @ts-expect-error
+                    // @ts-expect-error typescript is weird
                     expressions.push({
                         type: ExpressionType.Literal,
                         literal: this.current.literal,
@@ -145,6 +145,7 @@ export default class Parser {
                 }
                 case TokenType.Operator: {
                     
+                    break;
                 }
                 case TokenType.Keyword:
                 case TokenType.LineFeed:

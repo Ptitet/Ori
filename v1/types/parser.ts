@@ -1,4 +1,4 @@
-import { LiteralType } from "./tokenizer";
+import { LiteralType } from './tokenizer';
 
 export type Statement = Block | Inline;
 
@@ -17,22 +17,22 @@ export enum ExpressionType {
 }
 
 export interface VariableAssignment {
-    type: ExpressionType.Assignment,
-    variable: string,
-    value: Statement
+    type: ExpressionType.Assignment;
+    variable: string;
+    value: Statement;
 }
 
 interface Condition {
-    type: ExpressionType.Condition
-    condition: Statement,
-    true: Statement,
-    false?: Statement
+    type: ExpressionType.Condition;
+    condition: Statement;
+    true: Statement;
+    false?: Statement;
 }
 
 export interface FunctionCall {
-    type: ExpressionType.FunctionCall,
-    name: string,
-    args: Statement[]
+    type: ExpressionType.FunctionCall;
+    name: string;
+    args: Statement[];
 }
 
 export enum ComparisonOperator {
@@ -45,55 +45,56 @@ export enum ComparisonOperator {
 }
 
 export interface Comparison {
-    type: ExpressionType.Comparison,
-    operator: ComparisonOperator,
-    left: Statement,
-    right: Statement
+    type: ExpressionType.Comparison;
+    operator: ComparisonOperator;
+    left: Statement;
+    right: Statement;
 }
 
 interface BooleanLitteral {
-    type: ExpressionType.Literal,
-    litteral: LiteralType.Boolean,
-    value: boolean
+    type: ExpressionType.Literal;
+    litteral: LiteralType.Boolean;
+    value: boolean;
 }
 
 interface NumberLitteral {
-    type: ExpressionType.Literal,
-    litteral: LiteralType.Number,
-    value: number
+    type: ExpressionType.Literal;
+    litteral: LiteralType.Number;
+    value: number;
 }
 
 interface StringLitteral {
-    type: ExpressionType.Literal,
-    litteral: LiteralType.String,
-    value: string
+    type: ExpressionType.Literal;
+    litteral: LiteralType.String;
+    value: string;
 }
 
 export interface Variable {
-    type: ExpressionType.Variable,
-    name: string
+    type: ExpressionType.Variable;
+    name: string;
 }
 
 type Litteral = BooleanLitteral | NumberLitteral | StringLitteral;
 
 export interface FunctionDeclaration {
-    name: string,
-    args: string[],
-    body: Statement
+    name: string;
+    args: string[];
+    body: Statement;
 }
 
 type Expression = VariableAssignment | Condition | FunctionCall | Comparison | Litteral | Variable | FunctionDeclaration;
 
 export interface Inline {
-    type: StatementType.Inline
-    expression: Expression
+    type: StatementType.Inline;
+    expression: Expression;
 }
 
 export interface Block {
-    type: StatementType.Block,
-    statements: Statement[]
+    type: StatementType.Block;
+    statements: Statement[];
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const program: Block = {
     type: StatementType.Block,
     statements: [
@@ -200,4 +201,4 @@ const program: Block = {
             }
         }
     ]
-}
+};

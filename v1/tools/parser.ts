@@ -1,15 +1,15 @@
-import { ComparisonOperator, ExpressionType, StatementType, type Block, type Comparison, type FunctionCall, type Inline, type Statement, type Variable, type VariableAssignment } from "../types/parser";
-import { OperatorType, PunctuationType, TokenType, type Identifier, type Operator, type Token } from "../types/tokenizer";
+import { ComparisonOperator, ExpressionType, StatementType, type Block, type Comparison, type FunctionCall, type Inline, type Statement, type Variable, type VariableAssignment } from '../types/parser';
+import { OperatorType, PunctuationType, TokenType, type Identifier, type Operator, type Token } from '../types/tokenizer';
 
 interface ParseContext {
-    inline?: boolean,
-    functionArgs?: boolean
+    inline?: boolean;
+    functionArgs?: boolean;
 }
 
 export default class Parser {
 
     readonly tokens: Token[];
-    index: number = -1;
+    index = -1;
 
     constructor(tokens: Token[]) {
         this.tokens = tokens;
@@ -31,7 +31,7 @@ export default class Parser {
         const statement: Block = {
             type: StatementType.Block,
             statements: []
-        }
+        };
         while (this.next()) {
             switch (this.current.type) {
                 case TokenType.Identifier: {
@@ -42,7 +42,7 @@ export default class Parser {
                                 const parsed: Inline = {
                                     type: StatementType.Inline,
                                     expression: this.getVariableExpression()
-                                }
+                                };
                                 if (ctx.inline) {
                                     return parsed;
                                 } else {
@@ -71,8 +71,8 @@ export default class Parser {
                                         const parsed: Inline = {
                                             type: StatementType.Inline,
                                             expression: this.getVariableAssignmentExpression()
-                                        }
-                                        if (ctx.inline || ctx.functionArgs) {
+                                        };
+                                        if (ctx.inline ?? ctx.functionArgs) {
                                             return parsed;
                                         } else {
                                             statement.statements.push(parsed);
@@ -83,8 +83,8 @@ export default class Parser {
                                         const parsed: Inline = {
                                             type: StatementType.Inline,
                                             expression: this.getComparisonExpression()
-                                        }
-                                        if (ctx.inline || ctx.functionArgs) {
+                                        };
+                                        if (ctx.inline ?? ctx.functionArgs) {
                                             return parsed;
                                         } else {
                                             statement.statements.push(parsed);
@@ -166,7 +166,7 @@ export default class Parser {
             if (nextToken.type === TokenType.Punctuation && nextToken.punctuation === PunctuationType.CloseParenthesis) {
                 break;
             } else {
-                this.next()
+                this.next();
                 functionArgs.push(this.parse({ functionArgs: true, inline: true }));
             }
         }
@@ -177,7 +177,7 @@ export default class Parser {
         return {
             type: ExpressionType.Variable,
             name: (this.current as Identifier).name
-        }
+        };
     }
 
     getFunctionCallExpression(): FunctionCall {
@@ -187,7 +187,7 @@ export default class Parser {
             type: ExpressionType.FunctionCall,
             name,
             args: this.parseFunctionArguments()
-        }
+        };
     }
 
     getVariableAssignmentExpression(): VariableAssignment {
@@ -198,10 +198,10 @@ export default class Parser {
             type: ExpressionType.Assignment,
             variable: name,
             value: this.parse()
-        }
+        };
     }
 
-    getComparisonExpression(leftType: ExpressionType ): Comparison {
+    getComparisonExpression(): Comparison {
         const { operator } = this.next() as Operator;
         return {
             type: ExpressionType.Comparison,
@@ -211,6 +211,6 @@ export default class Parser {
             },
             operator: operator as unknown as ComparisonOperator,
             right: this.parse() 
-        }
+        };
     }
 }
