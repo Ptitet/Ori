@@ -76,7 +76,7 @@ export enum PunctuationType {
 
 export interface Punctuation {
     type: TokenType.Punctuation;
-    punctuation: PunctuationType; 
+    punctuation: PunctuationType;
 }
 
 export enum LiteralType {
@@ -107,13 +107,15 @@ interface LineFeed {
     type: TokenType.LineFeed;
 }
 
-type Literal = | BooleanLiteral 
-               | NumberLiteral
-               | StringLiteral;
+type Literal =
+    | BooleanLiteral
+    | NumberLiteral
+    | StringLiteral;
 
-export type Token = | Keyword
-                    | Identifier
-                    | Operator
-                    | Punctuation
-                    | Literal
-                    | LineFeed;
+export type Token =
+    | Keyword
+    | Identifier
+    | Operator
+    | Punctuation
+    | Literal
+    | LineFeed;
