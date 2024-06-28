@@ -4,7 +4,8 @@
     "type": "module",
     "scripts": {
         "start": "bun run index.ts",
-        "lint": "bunx eslint"
+        "lint": "bunx eslint",
+        "gd": "echo '/* eslint-disable*/' > debug.js; bun build v2/index.ts >> debug.js"
     },
     "devDependencies": {
         "@eslint/js": "^9.5.0",
