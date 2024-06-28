@@ -381,10 +381,10 @@ export default class Parser {
             }
             if (current.punctuation === PunctuationType.Comma) {
                 const values: Expression[] = [firstExpression];
-                let { current } = this._tokensReader;
-                while (current.type === TokenType.Punctuation && current.punctuation === PunctuationType.Comma) {
+                let current: Token | undefined;
+                // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+                while ((current = this._tokensReader.current) && current.type === TokenType.Punctuation && current.punctuation === PunctuationType.Comma) {
                     values.push(this._parse({ parsingArray: true }));
-                    current = this._tokensReader.current;
                 }
                 return {
                     type: ExpressionType.Array,
