@@ -2,64 +2,8 @@ import { ArrayType, BooleanOperator, ComparisonOperator, ExpressionType, MathOpe
 import { KeywordType, LiteralType, OperatorType, PunctuationType, TokenType } from '../types/tokenizer';
 import type { OriArray, Comparison, Condition, Expression, ForLoop, FunctionCall, FunctionDeclaration, Inline, Math, MathBinary, Member, OriObject, Variable, WhileLoop } from '../types/ast';
 import type { Identifier, Keyword, Punctuation, Token } from '../types/tokenizer';
-
-class TokensReader {
-
-    private _tokens: Token[];
-    private _index = -1;
-
-    constructor(tokens: Token[]) {
-        this._tokens = tokens;
-    }
-
-    get current(): Token {
-        return this._tokens.at(this._index)!;
-    }
-
-    next(): Token | undefined {
-        return this._tokens.at(++this._index);
-    }
-
-    peek(n = 1): Token | undefined {
-        return this._tokens.at(this._index + n);
-    }
-}
-
-interface ParsingOptions {
-    parsingIfCondition?: boolean;
-    parsingFunctionCallArgs?: boolean;
-    parsingObjectMemberValue?: boolean;
-    parsingWhileCondition?: boolean;
-    parsingForIterator?: boolean;
-    parsingIfThen?: boolean;
-    parsingArray?: boolean;
-    returnAfterLineFeed?: boolean;
-}
-
-interface ExpectToBeAny {
-    token: 'next' | 'current';
-    tokenType: Exclude<TokenType, TokenType.Keyword | TokenType.Punctuation>;
-}
-
-interface ExpectToBePunctuation {
-    token: 'next' | 'current';
-    tokenType: TokenType.Punctuation;
-    raw: PunctuationType[];
-}
-
-interface ExpectToBeKeyword {
-    token: 'next' | 'current';
-    tokenType: TokenType.Keyword;
-    raw: KeywordType[];
-}
-
-interface ExpectToBeOperator {
-    token: 'next' | 'current';
-    tokenType: TokenType.Operator;
-    raw: OperatorType[];
-}
-
-type ExpectToBeOptions = ExpectToBeAny | ExpectToBePunctuation | ExpectToBeKeyword | ExpectToBeOperator;
+import type { ExpectToBeOptions, ExpectToBePunctuation, ExpectToBeKeyword, ParsingOptions } from '../types/parser';
+import TokensReader from './readers/tokens';
 
 export default class Parser {
 
