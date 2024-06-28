@@ -1,6 +1,6 @@
-import { ArrayType, BooleanOperator, ComparisonOperator, ExpressionType, MathOperator, type ArrayAt, type Assignment, type Boolean, type BooleanBinary } from '../types/parser';
+import { ArrayType, BooleanOperator, ComparisonOperator, ExpressionType, MathOperator, type ArrayAt, type Assignment, type OriBoolean, type BooleanBinary } from '../types/parser';
 import { KeywordType, LiteralType, OperatorType, PunctuationType, TokenType } from '../types/tokenizer';
-import type { Array, Comparison, Condition, Expression, ForLoop, FunctionCall, FunctionDeclaration, Inline, Math, MathBinary, Member, Object, Variable, WhileLoop } from '../types/parser';
+import type { OriArray, Comparison, Condition, Expression, ForLoop, FunctionCall, FunctionDeclaration, Inline, Math, MathBinary, Member, OriObject, Variable, WhileLoop } from '../types/parser';
 import type { Identifier, Keyword, Punctuation, Token } from '../types/tokenizer';
 
 class TokensReader {
@@ -393,7 +393,7 @@ export default class Parser {
         }
     }
 
-    private _handleArray(): Array {
+    private _handleArray(): OriArray {
         const nextToken = this._tokensReader.peek();
         if (!nextToken) {
             throw SyntaxError('Unexpected end of file');
@@ -493,7 +493,7 @@ export default class Parser {
         };
     }
 
-    private _handleObjectDeclaration(): Object {
+    private _handleObjectDeclaration(): OriObject {
         const members: Member[] = [];
         let nextToken: Token | undefined = this._tokensReader.peek();
         if (!nextToken) {
@@ -668,7 +668,7 @@ export default class Parser {
         } satisfies Assignment;
     }
 
-    private _handleIdentifier(options: ParsingOptions = {}): Variable | FunctionCall | Math | Comparison | Boolean | Assignment | ArrayAt {
+    private _handleIdentifier(options: ParsingOptions = {}): Variable | FunctionCall | Math | Comparison | OriBoolean | Assignment | ArrayAt {
         const name = (this._tokensReader.current as Identifier).name;
         const nextToken = this._tokensReader.next(); // consume identifier
         if (!nextToken) {

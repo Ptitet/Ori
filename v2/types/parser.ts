@@ -115,7 +115,7 @@ export interface BooleanBinary {
     right: Expression;
 }
 
-export type Boolean = BooleanUnary | BooleanBinary;
+export type OriBoolean = BooleanUnary | BooleanBinary;
 
 export interface ArrayAt {
     type: ExpressionType.At;
@@ -142,14 +142,14 @@ interface ArrayList {
     values: Expression[];
 }
 
-export type Array = ArrayRange | ArrayList;
+export type OriArray = ArrayRange | ArrayList;
 
 export interface Member {
     key: string;
     value: Expression;
 }
 
-export interface Object {
+export interface OriObject {
     type: ExpressionType.Object;
     members: Member[];
 }
@@ -188,10 +188,10 @@ export type Inline =
     | Comparison
     | ForLoop
     | WhileLoop
-    | Boolean
+    | OriBoolean
     | ArrayAt
-    | Array
-    | Object
+    | OriArray
+    | OriObject
     | Literal
     | Variable;
 
