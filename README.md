@@ -6,7 +6,7 @@ Ori is my little programming language.
 
 I am making this because I find that this is a good coding challenge for myself, and I am very interested in how programming languages work under the hood (lexer, parser and interpreter / compiler).
 
-The purpose of this is of course not to be used in production environment. It is not finished, not stable, not optimized in any, and it is an interpreted language written in JavaScript.
+The purpose of this is of course not to be used in production environment. It is not finished, not stable, not optimized in any way, and it is an interpreted language written in JavaScript.
 
 > Yes, I know it is bad, but JavaScript is my main language for now. I will maybe rewrite it later in Rust if i can find the time to learn it.
 
@@ -53,7 +53,7 @@ add = fn (a, b) {
 }
 ```
 
-Here, we declare a function which return its argument, and assign it to the variable `return` (function declaration are expressions). Now, you can use this in functions body's to clearly mark that a value is returned, even if it is always the case.
+Here, we declare a function which return its argument, and assign it to the variable `return` (function declaration are expressions). Now, you can use this in functions body's to clearly mark that a value is returned, even if it is always the case. Note that if there are other expressions in the function's body after it, it will not have any effect, because the return value of the function is the result of the *last* expression.
 
 > To add an inline comment, you can use a semi-colon `;`
 
