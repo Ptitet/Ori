@@ -1,6 +1,6 @@
-import { ArrayType, BooleanOperator, ComparisonOperator, ExpressionType, MathOperator, type ArrayAt, type Assignment, type OriBoolean, type BooleanBinary } from '../types/parser';
+import { ArrayType, BooleanOperator, ComparisonOperator, ExpressionType, MathOperator, type ArrayAt, type Assignment, type OriBoolean, type BooleanBinary } from '../types/ast';
 import { KeywordType, LiteralType, OperatorType, PunctuationType, TokenType } from '../types/tokenizer';
-import type { OriArray, Comparison, Condition, Expression, ForLoop, FunctionCall, FunctionDeclaration, Inline, Math, MathBinary, Member, OriObject, Variable, WhileLoop } from '../types/parser';
+import type { OriArray, Comparison, Condition, Expression, ForLoop, FunctionCall, FunctionDeclaration, Inline, Math, MathBinary, Member, OriObject, Variable, WhileLoop } from '../types/ast';
 import type { Identifier, Keyword, Punctuation, Token } from '../types/tokenizer';
 
 class TokensReader {
