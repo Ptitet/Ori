@@ -8,7 +8,8 @@ enum CharType {
     Digit = 'digit',
     LineFeed = 'lineFeed',
     Space = 'space',
-    Comment = 'comment'
+    Comment = 'comment',
+    Quote = 'quote'
 }
 
 export default class Tokenizer {
@@ -46,15 +47,10 @@ export default class Tokenizer {
                     break;
                 }
                 case CharType.Punctuation: {
-                    const { current } = this._stringReader;
-                    if (this._quotes.includes(current)) {
-                        this._getStringLiteral();
-                    } else {
-                        this._tokens.push({
-                            type: TokenType.Punctuation,
-                            punctuation: this._stringReader.current as PunctuationType
-                        });
-                    }
+                    this._tokens.push({
+                        type: TokenType.Punctuation,
+                        punctuation: this._stringReader.current as PunctuationType
+                    });
                     break;
                 }
                 case CharType.Digit: {
@@ -70,6 +66,9 @@ export default class Tokenizer {
                 case CharType.Comment: {
                     this._skipComment();
                     break;
+                }
+                case CharType.Quote: {
+                    this._getStringLiteral();
                 }
             }
         }
@@ -90,8 +89,10 @@ export default class Tokenizer {
             return CharType.Space;
         } else if (char === this._comment) {
             return CharType.Comment;
-        } else if (this._operatorsFirstChar.includes(char)){
+        } else if (this._operatorsFirstChar.includes(char)) {
             return CharType.Operator;
+        } else if (this._quotes.includes(char)) {
+            return CharType.Quote;
         } else {
             throw SyntaxError(`Bad character ${char} at ${this._stringReader.row}:${this._stringReader.column}`);
         }
