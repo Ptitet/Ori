@@ -140,7 +140,9 @@ export default class Parser {
                 }
                 case TokenType.Literal: {
                     const nextToken = this._tokensReader.next();
-                    if (!nextToken) {
+                    if (!nextToken || nextToken.type === TokenType.LineFeed) {
+                        this._tokensReader.next(); // consume line feed
+                        exit = true;
                         // @ts-expect-error typescript is weird
                         output.push({
                             type: ExpressionType.Literal,
@@ -637,7 +639,7 @@ export default class Parser {
                         return {
                             type: ExpressionType.Assignment,
                             variable: name,
-                            value: this._parse()
+                            value: this._parse(options)
                         } satisfies Assignment;
                     }
                     case OperatorType.Plus:
