@@ -594,7 +594,7 @@ export default class Parser {
     }
 
     private _handleOperatorAndAssign(type: 'math', variableName: string, operator: MathOperator): Assignment;
-    private _handleOperatorAndAssign(type: 'boolean', variableName: string, operator: BooleanOperator): Assignment;
+    private _handleOperatorAndAssign(type: 'boolean', variableName: string, operator: Exclude<BooleanOperator, BooleanOperator.LogicalNot>): Assignment;
     private _handleOperatorAndAssign(type: 'math' | 'boolean', variableName: string, operator: MathOperator | BooleanOperator): Assignment {
         // @ts-expect-error  typescript is weird
         return {
@@ -724,7 +724,7 @@ export default class Parser {
                     }
                     case OperatorType.LogicalOrAndAssign:
                     case OperatorType.LogicalAndAndAssign: {
-                        return this._handleOperatorAndAssign('boolean', name, nextToken.operator as unknown as BooleanOperator);
+                        return this._handleOperatorAndAssign('boolean', name, nextToken.operator as unknown as Exclude<BooleanOperator, BooleanOperator.LogicalNot>);
                     }
                     case OperatorType.LogicalOr:
                     case OperatorType.LogicalAnd: {
