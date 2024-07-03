@@ -103,14 +103,14 @@ interface StringLiteral {
     value: string;
 }
 
-interface LineFeed {
-    type: TokenType.LineFeed;
-}
-
 type Literal =
     | BooleanLiteral
     | NumberLiteral
     | StringLiteral;
+
+interface LineFeed {
+    type: TokenType.LineFeed;
+}
 
 export type Token =
     | Keyword
